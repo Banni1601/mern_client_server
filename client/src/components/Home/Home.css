@@ -1,0 +1,14 @@
+@media screen and (max-width: 768px) {
+  .home-page-main-div {
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+}
+@media screen and (min-width: 992px) {
+  .home-page-main-div {
+    background-color: #27272d;
+    height: 100vh;
+    background-size: cover;
+    padding: 1px;
+  }
+}
