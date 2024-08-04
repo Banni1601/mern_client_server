@@ -7,8 +7,10 @@
 @media screen and (min-width: 992px) {
   .home-page-main-div {
     background-color: #27272d;
-    height: 100vh;
+    height: 500vh;
     background-size: cover;
     padding: 1px;
+    text-align: center;
+    color: #ffffff;
   }
 }

@@ -40,7 +40,7 @@ function RegisterPage() {
           if (response.status === 201) {
             setState((i) => ({
               ...i,
-              registerMessage: "User Already Exists",
+              registerMessage: "Give All Details",
               registerStatus: true
             }));
           } else if (response.status === 200) {
@@ -59,10 +59,11 @@ function RegisterPage() {
                 userName: "",
                 emailId: "",
                 password: "",
-                registerStatus: false
+                registerStatus: false,
+                isUserLogin: true
               }));
               navigate("/");
-            }, 2000);
+            }, 1000);
           }
         })
         .catch((error) => {

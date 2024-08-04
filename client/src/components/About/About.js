@@ -7,7 +7,7 @@ function About() {
   if (Cookies.get("p_token") === undefined) {
     return navigate("/login");
   }
-  return <div>About</div>;
+  return <div className="About-page">About</div>;
 }
 
 export default About;

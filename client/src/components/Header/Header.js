@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Header.css";
+import { Data } from "../../Context/userContext";
 import { Link } from "react-router-dom";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 function Header() {
   const navigate = useNavigate();
+  const { state, setState } = useContext(Data);
+  const [show, setShow] = useState(false);
+
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
   const navigateToAbout = () => {
     if (Cookies.get("p_token") === undefined) {
+      alert(
+        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
+      );
       navigate("/login");
     } else {
       navigate("/about");
@@ -15,24 +26,60 @@ function Header() {
   };
   const navigateToTask = () => {
     if (Cookies.get("p_token") === undefined) {
+      alert(
+        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
+      );
       navigate("/login");
     } else {
       navigate("/task");
     }
   };
-
   const navigateToSupport = () => {
     if (Cookies.get("p_token") === undefined) {
+      alert(
+        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
+      );
       navigate("/login");
     } else {
       navigate("/support");
     }
   };
-
+  const logoutComponent = () => {
+    if (state.isUserLogin) {
+      Cookies.remove("p_token");
+      setState((i) => ({ ...i, isUserLogin: false }));
+      navigate("/login", { replace: "/login" });
+      setShow(false);
+    } else {
+      setShow(false);
+      alert(
+        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
+      );
+      navigate("/login");
+    }
+  };
+  const loginAndLogout = () => {
+    if (state.isUserLogin) {
+      setShow(true);
+    } else {
+      setShow(false);
+      alert(
+        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
+      );
+      navigate("/login");
+    }
+  };
+  const clickSignup = () => {
+    alert(
+      "Username should be minimum 3 characters, EmailId should be minimum 10 characters, Password should be minimum 8 characters",
+      "Please SignUp first and Access the Pages Features"
+    );
+    navigate("/register");
+  };
   return (
     <div>
       <div className="header-page-small-device">
-        <nav className="navbar navbar-dark bg-dark fixed-top">
+        <nav className="navbar navbar-dark bg-dark ">
           <div className="container-fluid">
             <Link to="" className="navbar-brand navbarName">
               BUNNY
@@ -81,21 +128,24 @@ function Header() {
                       Task
                     </button>
                   </li>
-
-                  <li class="nav-item">
-                    <Link to="/login" class="nav-link">
-                      login
-                    </Link>
-                  </li>
-                  <li class="nav-item">
-                    <Link to="/register" class="nav-link">
-                      Sign up
-                    </Link>
-                  </li>
                   <li class="nav-item">
                     <button class="nav-link" onClick={navigateToSupport}>
                       Support
                     </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" onClick={loginAndLogout}>
+                      {state.isUserLogin ? "Logout" : "Login"}
+                    </button>
+                  </li>
+                  <li class="nav-item" onClick={clickSignup}>
+                    {!state.isUserLogin ? (
+                      <Link to="/register" class="nav-link">
+                        Sign up
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                   </li>
                 </ul>
               </div>
@@ -124,23 +174,42 @@ function Header() {
           </p>
         </div>
         <div className="header-page-btns-tyle-div">
-          <Link to="/login" className="header-page-btns-style-div-Link-styles">
-            {" "}
-            <button className="header-page-btns-styles-div-styles">
-              Login
-            </button>
-          </Link>
-          <Link
-            to="/register"
-            className="header-page-btns-style-div-Link-styles"
+          <button
+            className="header-page-btns-styles-div-styles"
+            onClick={loginAndLogout}
           >
-            {" "}
-            <button className="header-page-btns-styles-div-styles">
-              Sign Up
+            {state.isUserLogin ? "Logout" : "Login"}
+          </button>
+          {!state.isUserLogin ? (
+            <button
+              onClick={clickSignup}
+              className="header-page-btns-styles-div-styles"
+            >
+              {" "}
+              <p>Sign Up</p>{" "}
             </button>
-          </Link>
+          ) : (
+            ""
+          )}
         </div>
       </div>
+      <Modal
+        size="sm"
+        show={show}
+        onHide={() => setShow(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+        centered
+      >
+        <Modal.Body>Are You Sure, Want to Logout</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            No
+          </Button>
+          <Button variant="primary" onClick={logoutComponent}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

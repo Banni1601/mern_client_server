@@ -1,7 +1,9 @@
 import "./App.css";
-import { Outlet, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 //import RegisterPage from "./components/RegisterPage/RegisterPage";
 //Bunny BABU
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import UserContext from "./Context/userContext";
 import Header from "./components/Header/Header";
 import Footer from ".//components/Footer/Footer";
@@ -18,15 +20,17 @@ function App() {
       <div>
         <Header />
       </div>
-      <Routes to="/">
-        <Route path="" element={<Home />} />
-        <Route path="/task" element={<Task />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
-      </Routes>
+      <div>
+        <Routes to="/">
+          <Route path="" element={<Home />} />
+          <Route path="/task" element={<Task />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
+        </Routes>
+      </div>
 
       <Footer />
     </UserContext>

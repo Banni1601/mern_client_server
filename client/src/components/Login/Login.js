@@ -1,14 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Login.css";
 import { Data } from "../../Context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 //import createBrowserHistory from "history";
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+//import Toast from "react-bootstrap/Toast";
+//import ToastContainer from "react-bootstrap/ToastContainer";
 
 function Login() {
   const { state, setState } = useContext(Data);
+  const [showA, setShowA] = useState(false);
+
   const navigate = useNavigate();
   //const history = useHistory();
 
@@ -38,15 +43,17 @@ function Login() {
             loginMessage: "Login Successful and wait for 2 secs",
             loginStatus: true
           }));
+          setShowA(!showA);
           setTimeout(() => {
             setState((i) => ({
               ...i,
               userName: "",
-              password: "",
-              loginStatus: false
+              password: "1234567890",
+              loginStatus: false,
+              isUserLogin: !state.isUserLogin
             }));
             navigate("/", { replace: true });
-          }, 2000);
+          }, 500);
         } else if (
           response.status === 201 ||
           response.status === 203 ||
@@ -69,7 +76,6 @@ function Login() {
             loginStatus: true
           }));
         }
-        //console.error("Error:", error);
       });
   };
 
@@ -96,6 +102,7 @@ function Login() {
             placeholder="Enter a Email"
             className="Login-input"
             onChange={changeEmailID}
+            value={state.emailId}
           />
 
           <label htmlFor="input3" className="Login-label-name">
@@ -107,6 +114,7 @@ function Login() {
             id="input3"
             placeholder="Enter a Password"
             onChange={changePassword}
+            value={state.password}
           />
 
           <div className="Login-checkbox-div">
