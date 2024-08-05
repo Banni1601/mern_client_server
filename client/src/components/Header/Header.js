@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+
 function Header() {
   const navigate = useNavigate();
   const { state, setState } = useContext(Data);
@@ -159,6 +160,7 @@ function Header() {
             <p className="header-page-website-name-style">BUNNY</p>
           </Link>
         </div>
+
         <div className="header-pages-features-style">
           <Link to="" className="header-pages-features-style-para-style">
             <p className="header-pages-para-styles">Home</p>

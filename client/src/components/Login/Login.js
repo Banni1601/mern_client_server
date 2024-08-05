@@ -1,21 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./Login.css";
 import { Data } from "../../Context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-//import createBrowserHistory from "history";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import Toast from "react-bootstrap/Toast";
-//import ToastContainer from "react-bootstrap/ToastContainer";
 
+import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner";
 function Login() {
-  const { state, setState } = useContext(Data);
-  const [showA, setShowA] = useState(false);
-
+  const { state, setState, popUps, setPopUps } = useContext(Data);
   const navigate = useNavigate();
-  //const history = useHistory();
 
   const navigateToRegisterPage = () => {
     navigate("/register");
@@ -35,6 +31,7 @@ function Login() {
       .post("http://localhost:8000/api/login", formData)
       .then((response) => {
         if (response.status === 200) {
+          setPopUps((i) => ({ ...i, loading: true }));
           const p_token = response.data.token;
           Cookies.set("p_token", p_token, { expires: 30 });
           setState((i) => ({
@@ -43,33 +40,41 @@ function Login() {
             loginMessage: "Login Successful and wait for 2 secs",
             loginStatus: true
           }));
-          setShowA(!showA);
+          // setShowA(!showA);
           setTimeout(() => {
             setState((i) => ({
               ...i,
+              currentUserName: response.data.name,
+              currentUserMailId: response.data.email,
               userName: "",
-              password: "1234567890",
+              password: "",
+              emailId: "",
               loginStatus: false,
               isUserLogin: !state.isUserLogin
             }));
+            setPopUps((i) => ({ ...i, showToast: true, loading: false }));
+
             navigate("/", { replace: true });
-          }, 500);
+          }, 3000);
         } else if (
           response.status === 201 ||
           response.status === 203 ||
           response.status === 202
         ) {
+          // setLoading(false);
           setState((i) => ({
             ...i,
             loginMessage: "invalid username or password",
             loginStatus: true
           }));
-          alert("Invalid Username or Password and Please Try Again");
+
+          //  alert("Invalid Username or Password and Please Try Again");
         }
       })
 
       .catch((error) => {
         if (error.response.status === 204) {
+          // setLoading(false);
           setState((i) => ({
             ...i,
             loginMessage: "Network problem please wait and try again",
@@ -81,11 +86,9 @@ function Login() {
 
   const changeEmailID = (e) => {
     setState((i) => ({ ...i, emailId: e.target.value }));
-    //console.log(state.userName);
   };
   const changePassword = (e) => {
     setState((i) => ({ ...i, password: e.target.value }));
-    //console.log(state.password);
   };
 
   return (
@@ -138,6 +141,25 @@ function Login() {
         <button className="Register-button" onClick={navigateToRegisterPage}>
           User Register
         </button>
+        {popUps.loading ? (
+          <Modal
+            size="sm"
+            show={popUps.loading}
+            aria-labelledby="example-modal-sizes-title-sm"
+            centered
+            className="d-flex flex-row justify-content-center"
+          >
+            <Modal.Body className="d-flex">
+              {" "}
+              <strong className="">Please Wait...</strong>
+              <Spinner animation="border" role="status" className="loader">
+                <span className="visually-hidden"> </span>
+              </Spinner>
+            </Modal.Body>
+          </Modal>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

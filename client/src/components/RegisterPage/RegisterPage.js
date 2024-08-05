@@ -4,8 +4,12 @@ import { Data } from "../../Context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner";
 function RegisterPage() {
-  const { state, setState } = useContext(Data);
+  const { state, setState, popUps, setPopUps } = useContext(Data);
   const navigate = useNavigate();
   const navigateToLoginPage = () => {
     navigate("/login");
@@ -44,7 +48,7 @@ function RegisterPage() {
               registerStatus: true
             }));
           } else if (response.status === 200) {
-            console.log(response.status);
+            setPopUps((i) => ({ ...i, loading: true }));
             const p_token = response.data.token;
             Cookies.set("p_token", p_token, { expires: 30 });
             setState((i) => ({
@@ -56,14 +60,18 @@ function RegisterPage() {
             setTimeout(() => {
               setState((i) => ({
                 ...i,
+                currentUserName: response.data.name,
+                currentUserMailId: response.data.email,
                 userName: "",
                 emailId: "",
                 password: "",
                 registerStatus: false,
                 isUserLogin: true
               }));
+
+              setPopUps((i) => ({ ...i, showToast: true, loading: false }));
               navigate("/");
-            }, 1000);
+            }, 3000);
           }
         })
         .catch((error) => {
@@ -171,6 +179,25 @@ function RegisterPage() {
           Login
         </button>
       </div>
+      {popUps.loading ? (
+        <Modal
+          size="sm"
+          show={popUps.loading}
+          aria-labelledby="example-modal-sizes-title-sm"
+          centered
+          className="d-flex flex-row justify-content-center"
+        >
+          <Modal.Body className="d-flex">
+            {" "}
+            <strong className="">Please Wait...</strong>
+            <Spinner animation="border" role="status" className="loader">
+              <span className="visually-hidden"> </span>
+            </Spinner>
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

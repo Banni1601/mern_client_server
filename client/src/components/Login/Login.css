@@ -1,4 +1,9 @@
 @media screen and (max-width: 768px) {
+  .loader {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+  }
   .Login-successful {
     color: green;
     font-size: 15px;
@@ -94,6 +99,11 @@
   }
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
+  .loader {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+  }
   .Login-successful {
     color: green;
     font-size: 15px;
@@ -190,6 +200,11 @@
 }
 
 @media screen and (min-width: 992px) {
+  .loader {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+  }
   .Login-successful {
     color: green;
     font-size: 15px;

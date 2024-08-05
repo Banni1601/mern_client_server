@@ -14,10 +14,17 @@ export const UserContext = ({ children }) => {
     passwordError: false,
     registerStatus: false,
     loginStatus: false,
-    isUserLogin: false
+    isUserLogin: false,
+    currentUserName: "",
+    currentUserMailId: ""
   });
-  //const [retrivedData, setRetrivedData] = useState();
-  return <Data.Provider value={{ state, setState }}>{children}</Data.Provider>;
+  const [popUps, setPopUps] = useState({ showToast: false, loading: false });
+
+  return (
+    <Data.Provider value={{ state, setState, popUps, setPopUps }}>
+      {children}
+    </Data.Provider>
+  );
 };
 
 export default UserContext;
