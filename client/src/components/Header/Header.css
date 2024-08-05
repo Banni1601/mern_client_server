@@ -96,7 +96,7 @@
     align-items: center;
   }
   .header-pages-para-styles {
-    cursor:pointer;
+    cursor: pointer;
     color: rgb(255, 255, 255);
     font-weight: 500;
     font-style: normal;
@@ -107,4 +107,8 @@
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
   }
+}
+
+.loginModal {
+  font-size: 20px;
 }

@@ -30,13 +30,13 @@ function Home() {
             <img
               src="https://png.pngtree.com/png-vector/20190228/ourmid/pngtree-check-mark-icon-design-template-vector-isolated-png-image_711429.jpg"
               className="rounded me-0 "
-              height={50}
+              height={30}
               alt=""
             />
-            <strong className="me-auto ">{state.currentUserName}</strong>
+            <strong className="me-auto ">Hi {state.currentUserName}</strong>
           </Toast.Header>
           <Toast.Body className="text-center text-dark">
-            You Successfully login
+            You successfully logged in
           </Toast.Body>
         </Toast>
       </ToastContainer>

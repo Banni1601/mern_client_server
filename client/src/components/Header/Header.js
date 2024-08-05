@@ -12,14 +12,11 @@ function Header() {
   const navigate = useNavigate();
   const { state, setState } = useContext(Data);
   const [show, setShow] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
 
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
   const navigateToAbout = () => {
     if (Cookies.get("p_token") === undefined) {
-      alert(
-        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
-      );
+      setLoginModal(true);
       navigate("/login");
     } else {
       navigate("/about");
@@ -27,9 +24,7 @@ function Header() {
   };
   const navigateToTask = () => {
     if (Cookies.get("p_token") === undefined) {
-      alert(
-        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
-      );
+      setLoginModal(true);
       navigate("/login");
     } else {
       navigate("/task");
@@ -37,9 +32,7 @@ function Header() {
   };
   const navigateToSupport = () => {
     if (Cookies.get("p_token") === undefined) {
-      alert(
-        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
-      );
+      setLoginModal(true);
       navigate("/login");
     } else {
       navigate("/support");
@@ -53,9 +46,6 @@ function Header() {
       setShow(false);
     } else {
       setShow(false);
-      alert(
-        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
-      );
       navigate("/login");
     }
   };
@@ -64,17 +54,10 @@ function Header() {
       setShow(true);
     } else {
       setShow(false);
-      alert(
-        "Please Login or SignUp first and Access the Pages Features, default MailId: 1@gmail.com, Password: 1234567890"
-      );
       navigate("/login");
     }
   };
   const clickSignup = () => {
-    alert(
-      "Username should be minimum 3 characters, EmailId should be minimum 10 characters, Password should be minimum 8 characters",
-      "Please SignUp first and Access the Pages Features"
-    );
     navigate("/register");
   };
   return (
@@ -197,6 +180,8 @@ function Header() {
       </div>
       <Modal
         size="sm"
+        backdrop="static"
+        keyboard={false}
         show={show}
         onHide={() => setShow(false)}
         aria-labelledby="example-modal-sizes-title-sm"
@@ -211,6 +196,24 @@ function Header() {
             Yes
           </Button>
         </Modal.Footer>
+      </Modal>
+      <Modal
+        size="md"
+        show={loginModal}
+        onHide={() => setLoginModal(!loginModal)}
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm" className="loginModal">
+            Please Login or Signup for Access
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="flex flex-row justify-content-center align-content-center">
+          Default EmailId: 1@gmail.com <br></br>
+          Password: 1234567890
+        </Modal.Body>
       </Modal>
     </div>
   );
