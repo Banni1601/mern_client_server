@@ -13,4 +13,4 @@ route.delete("/deleteuser/:id", deleteUserData);
 */
 
 module.exports = route;
-//export default route;
+//export default route;;
